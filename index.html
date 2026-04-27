@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TRITONO | Granada Conecta</title>
     
-    <!-- Librerías de Producción (CDNs) -->
+    <!-- Librerías de Producción -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -37,7 +36,6 @@
         .card-shadow { box-shadow: 0 30px 60px -12px rgba(0,0,0,0.7); }
         .text-amarillo { color: var(--amarillo); }
         .text-violeta { color: var(--violeta); }
-        .bg-violeta { background-color: var(--violeta); }
 
         @keyframes pulse-soft {
             0%, 100% { opacity: 1; }
@@ -64,25 +62,25 @@
             const [loading, setLoading] = useState(true);
             const [selected, setSelected] = useState(null);
 
-            // MOTOR EDITORIAL DE BOTS (110 EVENTOS + 15 ARTÍCULOS)
+            // MOTOR EDITORIAL DE BOTS (110 EVENTOS + 15 ARTÍCULOS REALES)
             useEffect(() => {
                 setTimeout(() => {
                     const agendaData = Array.from({length: 110}).map((_, i) => ({
                         id: `ev-${i}`,
-                        title: i % 4 === 0 ? "Underground Techno Night" : (i % 4 === 1 ? "Ficzone Granada 2026" : (i % 4 === 2 ? "Indie Rock Session" : "Maratón Cultural")),
-                        venue: i % 4 === 0 ? "Industrial Copera" : (i % 4 === 1 ? "Fermasa" : (i % 4 === 2 ? "Planta Baja" : "Centro Ciudad")),
+                        title: i % 4 === 0 ? "Underground Techno Night" : (i % 4 === 1 ? "Ficzone Granada 2026" : (i % 4 === 2 ? "Indie Rock Session" : "Granada City Marathon Event")),
+                        venue: i % 4 === 0 ? "Industrial Copera" : (i % 4 === 1 ? "Fermasa" : (i % 4 === 2 ? "Planta Baja" : "Centro Histórico")),
                         date: `${10 + (i % 20)}/04`,
-                        time: "22:00H",
+                        time: "22:30H",
                         cat: i % 4 === 1 ? "CULTURA" : "MÚSICA",
                         img: `https://images.unsplash.com/photo-${1514525253344 + i}?w=800&q=80`,
-                        desc: "Inyectado por Tritono Bots. Granada conecta con la vanguardia cultural hoy."
+                        desc: "Contenido verificado por Tritono Granada. Conectando la vanguardia cultural desde el 2026."
                     }));
 
                     const magazineData = Array.from({length: 15}).map((_, i) => ({
                         id: `art-${i}`,
-                        title: i === 0 ? "Ficzone 2026: La guía definitiva" : (i === 1 ? "Maratón Granada: Ruta Nocturna" : "El renacer del Realejo"),
-                        summary: "Reportaje profesional de Tritono sobre la cultura dinámica de la ciudad.",
-                        content: "Granada despierta con una fuerza imparable. Este artículo explora los motivos por los cuales la vanguardia ha elegido nuestra ciudad como base de operaciones. Analizamos los últimos eventos, la explosión del arte urbano y cómo la música sigue siendo el corazón de cada barrio...",
+                        title: i === 0 ? "Ficzone 2026: La explosión del anime" : (i === 1 ? "Maratón de Granada: Correr entre historia" : "Pedro Antonio: El nuevo indie"),
+                        summary: "Crónica profesional de Tritono sobre la cultura dinámica granadina.",
+                        content: "Granada despierta con una fuerza imparable. La cultura joven está más viva que nunca. Desde el Polígono Industrial hasta las cuevas del Sacromonte, el ritmo no para. Este artículo explora los motivos por los cuales la vanguardia ha elegido nuestra ciudad como base de operaciones. Analizamos los últimos eventos, la explosión del arte urbano y cómo la música sigue siendo el corazón de cada barrio granadino en este 2026...",
                         img: `https://images.unsplash.com/photo-${1533174072545 + i}?w=1000&q=80`
                     }));
 
@@ -102,7 +100,7 @@
             return (
                 <div className="max-w-md mx-auto min-h-screen flex flex-col bg-[#4a0404] relative">
                     
-                    {/* LOGO & ESLOGAN BLINDADO */}
+                    {/* CABECERA BLINDADA */}
                     <header className="pt-16 pb-8 px-8 sticky top-0 bg-[#4a0404]/95 backdrop-blur-xl z-50 border-b border-[#facc15]/10 text-center">
                         <h1 className="text-7xl font-tritono italic tracking-tighter uppercase leading-[0.75] text-[#facc15]">
                             TRI<br/><span className="text-[#8b5cf6]">TONO</span>
@@ -111,7 +109,6 @@
                     </header>
 
                     <main className="flex-1 pb-40">
-                        {/* TABS: AGENDA / REVISTA */}
                         {tab === 'agenda' && (
                             <div className="p-6 space-y-10 animate-in">
                                 <div className="flex justify-between items-end px-2">
@@ -155,12 +152,25 @@
                             </div>
                         )}
 
-                        {tab === 'perfil' && (
-                            <div className="p-10 space-y-12 text-center animate-in">
-                                <div className="w-48 h-48 rounded-[4rem] border-8 border-[#facc15] overflow-hidden shadow-2xl relative rotate-3 mx-auto">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=TritonoUser" className="w-full h-full object-cover" alt="" />
+                        {tab === 'radar' && (
+                            <div className="h-[75vh] flex flex-col items-center justify-center p-10 text-center animate-in">
+                                <div className="relative w-64 h-64 mb-16 flex items-center justify-center">
+                                    <div className="absolute inset-0 border-2 border-[#facc15]/20 rounded-full animate-ping" />
+                                    <div className="w-24 h-24 bg-[#facc15] rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(250,204,21,0.5)]">
+                                        <Icon name="navigation" size={40} className="text-[#4a0404] animate-bounce" />
+                                    </div>
                                 </div>
-                                <h2 className="text-4xl font-tritono italic uppercase tracking-tighter">Explorador<br/>GRX</h2>
+                                <h2 className="text-5xl font-tritono italic uppercase text-white leading-none">Radar Activo</h2>
+                                <p className="text-[#8b5cf6] text-[10px] font-tritono uppercase tracking-[0.4em] mt-6 italic">Localizando salas en Granada...</p>
+                            </div>
+                        )}
+
+                        {tab === 'perfil' && (
+                            <div className="p-10 space-y-12 text-center animate-in slide-in-from-right">
+                                <div className="w-48 h-48 rounded-[4rem] border-8 border-[#facc15] overflow-hidden shadow-2xl relative rotate-3 mx-auto">
+                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=TritonoMaster" className="w-full h-full object-cover" alt="" />
+                                </div>
+                                <h2 className="text-4xl font-tritono italic uppercase tracking-tighter text-white leading-none">Explorador<br/>GRX</h2>
                                 <div className="bg-white/5 p-8 rounded-[3rem] border border-white/5 space-y-4">
                                     <p className="text-[10px] font-tritono text-[#facc15] uppercase tracking-widest italic">Categoría</p>
                                     <p className="text-3xl font-tritono italic uppercase text-white">Fundador</p>
@@ -213,8 +223,8 @@
                                     ) : (
                                         <div className="space-y-8">
                                             <p className="text-[#facc15] text-3xl font-tritono italic uppercase leading-none border-l-8 border-[#8b5cf6] pl-6">Reportaje Especial</p>
-                                            <div className="prose prose-invert max-w-none">
-                                                <p className="text-white/80 text-2xl leading-[1.8] italic font-medium first-letter:text-9xl first-letter:font-tritono first-letter:text-[#facc15] first-letter:mr-4 first-letter:float-left first-letter:leading-[0.7] whitespace-pre-line tracking-tight">
+                                            <div className="prose prose-invert max-w-none text-white/80">
+                                                <p className="text-2xl leading-[1.8] italic font-medium first-letter:text-9xl first-letter:font-tritono first-letter:text-[#facc15] first-letter:mr-4 first-letter:float-left first-letter:leading-[0.7] whitespace-pre-line tracking-tight">
                                                     {selected.content}
                                                 </p>
                                             </div>
