@@ -5,43 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TRITONO | Granada Conecta</title>
     
-    <!-- Librerías de Producción -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Librerías Externas -->
+    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+    <script src="[https://unpkg.com/react@18/umd/react.production.min.js](https://unpkg.com/react@18/umd/react.production.min.js)"></script>
+    <script src="[https://unpkg.com/react-dom@18/umd/react-dom.production.min.js](https://unpkg.com/react-dom@18/umd/react-dom.production.min.js)"></script>
+    <script src="[https://unpkg.com/@babel/standalone/babel.min.js](https://unpkg.com/@babel/standalone/babel.min.js)"></script>
+    <script src="[https://unpkg.com/lucide@latest](https://unpkg.com/lucide@latest)"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
-        
-        :root {
-            --granate: #4a0404;
-            --amarillo: #facc15;
-            --violeta: #8b5cf6;
-        }
-
-        body { 
-            background-color: var(--granate); 
-            margin: 0; padding: 0; 
-            overflow-x: hidden; 
-            font-family: 'system-ui', -apple-system, sans-serif;
-            color: white;
-            -webkit-tap-highlight-color: transparent;
-        }
-
+        @import url('[https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap](https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap)');
+        :root { --granate: #4a0404; --amarillo: #facc15; --violeta: #8b5cf6; }
+        body { background-color: var(--granate); margin: 0; color: white; font-family: system-ui; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         .font-tritono { font-family: 'Archivo Black', sans-serif; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        
-        .card-shadow { box-shadow: 0 30px 60px -12px rgba(0,0,0,0.7); }
-        .text-amarillo { color: var(--amarillo); }
-        .text-violeta { color: var(--violeta); }
-
-        @keyframes pulse-soft {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-        .animate-pulse-soft { animation: pulse-soft 2s ease-in-out infinite; }
+        .card-shadow { box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body>
@@ -50,193 +26,48 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        const Icon = ({ name, size = 24, className = "" }) => {
+        const Icon = ({ name, size = 24 }) => {
             useEffect(() => { if (window.lucide) window.lucide.createIcons(); }, [name]);
-            return <i data-lucide={name} style={{ width: size, height: size }} className={className}></i>;
+            return <i data-lucide={name} style={{ width: size, height: size }}></i>;
         };
 
         const App = () => {
             const [tab, setTab] = useState('agenda');
-            const [events, setEvents] = useState([]);
-            const [articles, setArticles] = useState([]);
-            const [loading, setLoading] = useState(true);
-            const [selected, setSelected] = useState(null);
-
-            // MOTOR EDITORIAL DE BOTS (110 EVENTOS + 15 ARTÍCULOS REALES)
-            useEffect(() => {
-                setTimeout(() => {
-                    const agendaData = Array.from({length: 110}).map((_, i) => ({
-                        id: `ev-${i}`,
-                        title: i % 4 === 0 ? "Underground Techno Night" : (i % 4 === 1 ? "Ficzone Granada 2026" : (i % 4 === 2 ? "Indie Rock Session" : "Granada City Marathon Event")),
-                        venue: i % 4 === 0 ? "Industrial Copera" : (i % 4 === 1 ? "Fermasa" : (i % 4 === 2 ? "Planta Baja" : "Centro Histórico")),
-                        date: `${10 + (i % 20)}/04`,
-                        time: "22:30H",
-                        cat: i % 4 === 1 ? "CULTURA" : "MÚSICA",
-                        img: `https://images.unsplash.com/photo-${1514525253344 + i}?w=800&q=80`,
-                        desc: "Contenido verificado por Tritono Granada. Conectando la vanguardia cultural desde el 2026."
-                    }));
-
-                    const magazineData = Array.from({length: 15}).map((_, i) => ({
-                        id: `art-${i}`,
-                        title: i === 0 ? "Ficzone 2026: La explosión del anime" : (i === 1 ? "Maratón de Granada: Correr entre historia" : "Pedro Antonio: El nuevo indie"),
-                        summary: "Crónica profesional de Tritono sobre la cultura dinámica granadina.",
-                        content: "Granada despierta con una fuerza imparable. La cultura joven está más viva que nunca. Desde el Polígono Industrial hasta las cuevas del Sacromonte, el ritmo no para. Este artículo explora los motivos por los cuales la vanguardia ha elegido nuestra ciudad como base de operaciones. Analizamos los últimos eventos, la explosión del arte urbano y cómo la música sigue siendo el corazón de cada barrio granadino en este 2026...",
-                        img: `https://images.unsplash.com/photo-${1533174072545 + i}?w=1000&q=80`
-                    }));
-
-                    setEvents(agendaData);
-                    setArticles(magazineData);
-                    setLoading(false);
-                }, 1500);
-            }, []);
-
-            if (loading) return (
-                <div className="h-screen flex flex-col items-center justify-center bg-[#4a0404]">
-                    <div className="animate-spin text-[#facc15] mb-8"><Icon name="zap" size={64} /></div>
-                    <p className="font-tritono uppercase tracking-[0.8em] text-[10px] text-[#facc15] animate-pulse-soft">Tritono Granada Conecta...</p>
-                </div>
-            );
+            
+            const events = [
+                { id: 1, title: "Techno Night", venue: "Industrial Copera", date: "15/04", img: "[https://images.unsplash.com/photo-1514525253344-8d13ee7c976d?w=800](https://images.unsplash.com/photo-1514525253344-8d13ee7c976d?w=800)" },
+                { id: 2, title: "Indie Rock", venue: "Planta Baja", date: "16/04", img: "[https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800](https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800)" },
+                { id: 3, title: "Flamenco Vivo", venue: "Sacromonte", date: "17/04", img: "[https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800](https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800)" }
+            ];
 
             return (
-                <div className="max-w-md mx-auto min-h-screen flex flex-col bg-[#4a0404] relative">
-                    
-                    {/* CABECERA BLINDADA */}
-                    <header className="pt-16 pb-8 px-8 sticky top-0 bg-[#4a0404]/95 backdrop-blur-xl z-50 border-b border-[#facc15]/10 text-center">
-                        <h1 className="text-7xl font-tritono italic tracking-tighter uppercase leading-[0.75] text-[#facc15]">
-                            TRI<br/><span className="text-[#8b5cf6]">TONO</span>
-                        </h1>
-                        <p className="text-[12px] font-tritono uppercase tracking-[1.3em] text-[#8b5cf6] mt-4 ml-4">CONECTA</p>
+                <div className="max-w-md mx-auto min-h-screen flex flex-col bg-[#4a0404]">
+                    <header className="pt-14 pb-6 px-8 text-center sticky top-0 bg-[#4a0404]/90 backdrop-blur-md z-50">
+                        <h1 className="text-6xl font-tritono italic uppercase leading-[0.8] text-[#facc15]">TRI<br/><span className="text-[#8b5cf6]">TONO</span></h1>
+                        <p className="text-[10px] font-tritono uppercase tracking-[0.8em] text-[#8b5cf6] mt-4">Granada</p>
                     </header>
 
-                    <main className="flex-1 pb-40">
-                        {tab === 'agenda' && (
-                            <div className="p-6 space-y-10 animate-in">
-                                <div className="flex justify-between items-end px-2">
-                                    <h2 className="text-4xl font-tritono italic uppercase text-white tracking-tighter leading-none">Agenda <span className="text-[#facc15]">GRX</span></h2>
-                                    <span className="text-[10px] font-tritono text-[#8b5cf6]">{events.length} CITAS</span>
-                                </div>
-                                {events.map(ev => (
-                                    <div key={ev.id} onClick={() => setSelected({type: 'event', ...ev})} className="relative h-[480px] rounded-[4rem] overflow-hidden border border-white/10 group active:scale-[0.97] transition-all card-shadow">
-                                        <img src={ev.img} className="w-full h-full object-cover grayscale-[0.2]" alt="" />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-[#4a0404] via-transparent to-transparent" />
-                                        <div className="absolute top-8 right-8">
-                                            <span className="bg-[#8b5cf6] text-[10px] font-tritono px-5 py-2 rounded-full uppercase tracking-widest">{ev.cat}</span>
-                                        </div>
-                                        <div className="absolute bottom-10 left-10 right-10">
-                                            <p className="text-[#facc15] text-[11px] font-tritono uppercase mb-2">{ev.date} — {ev.time}</p>
-                                            <h3 className="text-4xl font-tritono italic uppercase leading-none tracking-tighter mb-4">{ev.title}</h3>
-                                            <p className="text-[11px] font-bold uppercase text-white/40 flex items-center gap-2">
-                                                <Icon name="map-pin" size={12} className="text-[#8b5cf6]" /> {ev.venue}
-                                            </p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-
-                        {tab === 'revista' && (
-                            <div className="p-8 space-y-16">
-                                <h2 className="text-5xl font-tritono italic uppercase text-[#facc15] border-b-8 border-[#8b5cf6] pb-4 inline-block leading-none">Revista</h2>
-                                {articles.map(art => (
-                                    <div key={art.id} onClick={() => setSelected({type: 'article', ...art})} className="group">
-                                        <div className="relative aspect-[4/5] rounded-[4.5rem] overflow-hidden mb-8 border border-white/5 shadow-2xl">
-                                            <img src={art.img} className="w-full h-full object-cover opacity-80" alt="" />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-[#4a0404] via-transparent to-transparent" />
-                                            <div className="absolute bottom-10 left-10 right-10">
-                                                <h3 className="text-4xl font-tritono italic uppercase leading-[0.8] tracking-tighter">{art.title}</h3>
-                                            </div>
-                                        </div>
-                                        <p className="text-white/60 italic text-xl leading-relaxed line-clamp-3 px-4">{art.summary}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-
-                        {tab === 'radar' && (
-                            <div className="h-[75vh] flex flex-col items-center justify-center p-10 text-center animate-in">
-                                <div className="relative w-64 h-64 mb-16 flex items-center justify-center">
-                                    <div className="absolute inset-0 border-2 border-[#facc15]/20 rounded-full animate-ping" />
-                                    <div className="w-24 h-24 bg-[#facc15] rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(250,204,21,0.5)]">
-                                        <Icon name="navigation" size={40} className="text-[#4a0404] animate-bounce" />
-                                    </div>
-                                </div>
-                                <h2 className="text-5xl font-tritono italic uppercase text-white leading-none">Radar Activo</h2>
-                                <p className="text-[#8b5cf6] text-[10px] font-tritono uppercase tracking-[0.4em] mt-6 italic">Localizando salas en Granada...</p>
-                            </div>
-                        )}
-
-                        {tab === 'perfil' && (
-                            <div className="p-10 space-y-12 text-center animate-in slide-in-from-right">
-                                <div className="w-48 h-48 rounded-[4rem] border-8 border-[#facc15] overflow-hidden shadow-2xl relative rotate-3 mx-auto">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=TritonoMaster" className="w-full h-full object-cover" alt="" />
-                                </div>
-                                <h2 className="text-4xl font-tritono italic uppercase tracking-tighter text-white leading-none">Explorador<br/>GRX</h2>
-                                <div className="bg-white/5 p-8 rounded-[3rem] border border-white/5 space-y-4">
-                                    <p className="text-[10px] font-tritono text-[#facc15] uppercase tracking-widest italic">Categoría</p>
-                                    <p className="text-3xl font-tritono italic uppercase text-white">Fundador</p>
+                    <main className="flex-1 p-6 pb-32 space-y-8">
+                        {tab === 'agenda' && events.map(ev => (
+                            <div key={ev.id} className="relative h-72 rounded-[2.5rem] overflow-hidden border border-white/10 card-shadow">
+                                <img src={ev.img} className="w-full h-full object-cover grayscale-[0.3]" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+                                <div className="absolute bottom-6 left-6">
+                                    <h3 className="text-2xl font-tritono italic uppercase">{ev.title}</h3>
+                                    <p className="text-[10px] font-bold uppercase text-[#facc15]">{ev.venue} — {ev.date}</p>
                                 </div>
                             </div>
+                        ))}
+                        {tab !== 'agenda' && (
+                            <div className="h-64 flex items-center justify-center italic text-[#8b5cf6]">Próximamente...</div>
                         )}
                     </main>
 
-                    {/* NAVEGACIÓN */}
-                    <nav className="fixed bottom-10 left-8 right-8 h-24 bg-[#4a0404]/90 backdrop-blur-3xl rounded-[3rem] border border-white/10 flex items-center justify-around z-[100] shadow-2xl">
-                        {[
-                            { id: 'agenda', icon: 'calendar' },
-                            { id: 'radar', icon: 'navigation' },
-                            { id: 'revista', icon: 'book-open' },
-                            { id: 'perfil', icon: 'user' }
-                        ].map(t => (
-                            <button 
-                                key={t.id} 
-                                onClick={() => { setTab(t.id); setSelected(null); }} 
-                                className={`p-5 transition-all duration-500 relative ${tab === t.id ? 'text-[#facc15] scale-125' : 'text-white/20'}`}
-                            >
-                                <Icon name={t.icon} size={30} />
-                                {tab === t.id && (
-                                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#facc15] rounded-full shadow-[0_0_15px_#facc15]" />
-                                )}
-                            </button>
-                        ))}
+                    <nav className="fixed bottom-8 left-8 right-8 h-20 bg-black/80 backdrop-blur-xl rounded-[2.2rem] border border-white/10 flex items-center justify-around z-50 shadow-2xl">
+                        <button onClick={() => setTab('agenda')} className={`p-4 ${tab === 'agenda' ? 'text-[#facc15]' : 'text-white/20'}`}><Icon name="calendar" /></button>
+                        <button onClick={() => setTab('radar')} className={`p-4 ${tab === 'radar' ? 'text-[#facc15]' : 'text-white/20'}`}><Icon name="navigation" /></button>
+                        <button onClick={() => setTab('perfil')} className={`p-4 ${tab === 'perfil' ? 'text-[#facc15]' : 'text-white/20'}`}><Icon name="user" /></button>
                     </nav>
-
-                    {/* MODAL DETALLE */}
-                    {selected && (
-                        <div className="fixed inset-0 z-[200] bg-[#4a0404] overflow-y-auto animate-in slide-in-from-bottom duration-500 pb-40">
-                            <div className="h-[65vh] relative">
-                                <img src={selected.img} className="w-full h-full object-cover grayscale-[0.2]" alt="" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#4a0404] via-[#4a0404]/40 to-transparent" />
-                                <button onClick={() => setSelected(null)} className="absolute top-14 left-10 w-16 h-16 bg-black/40 backdrop-blur-xl rounded-2xl flex items-center justify-center border border-white/10">
-                                    <Icon name="x" size={32} className="text-white" />
-                                </button>
-                            </div>
-                            <div className="px-10 -mt-24 relative space-y-8">
-                                <span className="bg-[#8b5cf6] text-[11px] font-tritono px-6 py-2 rounded-full uppercase shadow-2xl inline-block tracking-widest">{selected.cat || 'MAGAZINE'}</span>
-                                <h2 className="text-6xl font-tritono italic uppercase leading-[0.8] tracking-tighter text-white drop-shadow-2xl">{selected.title}</h2>
-                                <div className="bg-white/5 p-12 rounded-[4.5rem] border border-white/5 backdrop-blur-3xl shadow-3xl">
-                                    {selected.type === 'event' ? (
-                                        <div className="space-y-6">
-                                            <p className="text-[#facc15] text-[12px] font-tritono uppercase tracking-widest">Escenario</p>
-                                            <p className="text-3xl font-tritono italic text-white uppercase leading-none">{selected.venue}</p>
-                                            <p className="text-white/70 text-2xl italic leading-relaxed font-medium">"{selected.desc}"</p>
-                                        </div>
-                                    ) : (
-                                        <div className="space-y-8">
-                                            <p className="text-[#facc15] text-3xl font-tritono italic uppercase leading-none border-l-8 border-[#8b5cf6] pl-6">Reportaje Especial</p>
-                                            <div className="prose prose-invert max-w-none text-white/80">
-                                                <p className="text-2xl leading-[1.8] italic font-medium first-letter:text-9xl first-letter:font-tritono first-letter:text-[#facc15] first-letter:mr-4 first-letter:float-left first-letter:leading-[0.7] whitespace-pre-line tracking-tight">
-                                                    {selected.content}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                                <button className="w-full py-10 bg-[#8b5cf6] text-white rounded-[4rem] font-tritono uppercase text-xl italic tracking-[0.4em] shadow-xl active:scale-95 transition-all">
-                                    Conectar
-                                </button>
-                            </div>
-                        </div>
-                    )}
                 </div>
             );
         };
@@ -246,5 +77,3 @@
     </script>
 </body>
 </html>
-
-```
